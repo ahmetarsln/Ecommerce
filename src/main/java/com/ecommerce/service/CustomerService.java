@@ -3,6 +3,7 @@ package com.ecommerce.service;
 import com.ecommerce.model.dto.CustomerDto;
 import com.ecommerce.model.entity.Customer;
 import com.ecommerce.repository.CustomerRepository;
+import com.ecommerce.util.StringUtil;
 import org.springframework.stereotype.Service;
 
 import org.modelmapper.ModelMapper;
@@ -21,6 +22,12 @@ public class CustomerService {
 
     public void createCustomer(CustomerDto customerDto)
     {
+        customerDto.setFirstName(StringUtil.formatFirstName(customerDto.getFirstName()));
+
+        if(customerDto.getFirstName() == null) {
+            return;
+        }
+
         this.customerRepository.save(modelMapper.map(customerDto, Customer.class));
     }
 }
