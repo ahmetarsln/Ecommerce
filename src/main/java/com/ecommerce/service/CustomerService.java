@@ -22,12 +22,13 @@ public class CustomerService {
 
     public void createCustomer(CustomerDto customerDto)
     {
-        customerDto.setFirstName(StringUtil.formatFirstName(customerDto.getFirstName()));
+        String ad = customerDto.getFirstName();
 
-        if(customerDto.getFirstName() == null) {
-            return;
-        }
+        String formattedName = StringUtil.formatName(ad);
+        customerDto.setFirstName(formattedName);
 
         this.customerRepository.save(modelMapper.map(customerDto, Customer.class));
     }
+
+
 }
