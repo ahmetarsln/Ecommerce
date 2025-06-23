@@ -1,6 +1,7 @@
 package com.ecommerce.model.entity;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -21,6 +22,7 @@ public class Customer extends BaseEntity {
     private String firstName;
 
     @OneToOne
+    @Nullable
     private Cart cart;
 
     @OneToMany

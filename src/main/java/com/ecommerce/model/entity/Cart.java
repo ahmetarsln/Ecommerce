@@ -3,6 +3,8 @@ package com.ecommerce.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.UUID;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.Set;
 
@@ -15,6 +17,7 @@ import java.util.Set;
 public class Cart extends BaseEntity {
 
     @OneToOne
+    @JoinColumn(unique = true)
     private Customer customer;
 
     @OneToMany

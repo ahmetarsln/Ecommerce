@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Order")
+@Table(name="`orders`")
 public class Order extends BaseEntity{
 
     @ManyToOne
