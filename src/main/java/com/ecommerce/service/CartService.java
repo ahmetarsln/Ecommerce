@@ -1,5 +1,7 @@
 package com.ecommerce.service;
 
+import com.ecommerce.exception.GlobalExceptionHandler;
+import com.ecommerce.exception.ResouceNotFoundException;
 import com.ecommerce.model.dto.CartDto;
 import com.ecommerce.model.entity.Cart;
 import com.ecommerce.model.entity.Customer;
@@ -26,23 +28,34 @@ public class CartService {
 
     public CartDto addCart(CartDto cartDto)
     {
+        Customer customer;
+        try {
+             customer = this.customerRepository.findByFirstName(cartDto.getCustomer().getFirstName());
 
+            if (customer == null)
+                throw new ResouceNotFoundException("Customer bulunamadı");
 
-        Customer customer = this.customerRepository.findByFirstName(cartDto.getCustomer().getFirstName());
+        }catch(Exception e) {
+            throw new ResouceNotFoundException(e.getMessage());
+        }
 
-        if (customer.getFirstName() == null)
-            throw new IllegalArgumentException("Customer bulunamadı");
+        try{
 
-        Cart cart = modelMapper.map(cartDto, Cart.class);
+            Cart cart = modelMapper.map(cartDto, Cart.class);
+            cart.setCustomer(customer);
 
-        cart.setCustomer(customer);
+            cart = this.cartRepository.save(cart);
 
-        cart = this.cartRepository.save(cart);
+            customer.setCart(cart);
 
-        customer.setCart(cart);
+            this.customerRepository.save(customer);
 
-        this.customerRepository.save(customer);
+            return modelMapper.map(cart, CartDto.class);
 
-        return modelMapper.map(cart, CartDto.class);
+        }catch(Exception e )
+        {
+            throw new  ResouceNotFoundException("Customer Duplicate");
+        }
+
     }
 }
