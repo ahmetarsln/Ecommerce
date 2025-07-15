@@ -2,6 +2,9 @@ package com.ecommerce.util;
 
 public class StringUtil {
 
+    private StringUtil()
+    {
+    }
     public static String formatName(String ad)
     {
         ad = ad.trim();
